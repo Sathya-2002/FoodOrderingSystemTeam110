@@ -22,7 +22,7 @@ public class RestaurantService {
     }    
     public List<FoodItem> getFoodItemsByRestaurantId(Long restaurantId) {
         
-		List<FoodItem> foodItems = foodItemRepository.findByRestaurantId(restaurantId);
+		List<FoodItem> foodItems = foodItemRepository.findByRestaurantsId(restaurantId);
         if (foodItems.isEmpty()) {
             throw new RuntimeException("No food items found for the restaurant with ID: " + restaurantId);
         }

@@ -39,7 +39,7 @@ public class OrderController {
         List<Long> itemIDs = request.getFoodItemIds();// Create order items based on request details
         List<OrderItem> items = new ArrayList<>();
         for(Long itemID:itemIDs) {
-        	List<FoodItem> foodItems = foodItemRepository.findByRestaurantId(itemID);
+        	List<FoodItem> foodItems = foodItemRepository.findByRestaurantsId(itemID);
             for (FoodItem FIitem : foodItems) {
                 if (itemID==FIitem.getId()){
                     OrderItem item = new OrderItem();

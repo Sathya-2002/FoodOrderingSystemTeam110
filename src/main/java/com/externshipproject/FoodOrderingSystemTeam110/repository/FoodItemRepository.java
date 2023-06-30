@@ -19,5 +19,5 @@ public interface FoodItemRepository extends JpaRepository<FoodItem, Long> {
 	List<FoodItem> findFoodItemsByRestaurantId(@Param("restaurantId")Long restaurantId);
 //    FoodItem findByRestaurantsId(Long restaurantId);
 
-    List<FoodItem> findByRestaurantId(Long itemID);
+    List<FoodItem> findByRestaurantsId(Long restaurantsID);
 }
