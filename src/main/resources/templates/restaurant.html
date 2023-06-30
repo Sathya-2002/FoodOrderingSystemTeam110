@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Restaurant</title>
+    <style>
+        /* CSS styles here */
+    </style>
+</head>
+<body>
+    <h1>Restaurant</h1>
+    <h2 id="restaurantName"></h2>
+
+    <table id="foodItemsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var restaurantId = "123"; // Replace with the actual restaurant ID
+
+            // Fetch restaurant details
+            $.ajax({
+                url: "/restaurants/" + restaurantId,
+                type: "GET",
+                success: function(restaurant) {
+                    $("#restaurantName").text(restaurant.name);
+                },
+                error: function() {
+                    alert("Failed to fetch restaurant details.");
+                }
+            });
+
+            // Fetch food items for the restaurant
+            $.ajax({
+                url: "/restaurants/" + restaurantId + "/fooditems",
+                type: "GET",
+                success: function(foodItems) {
+                    displayFoodItems(foodItems);
+                },
+                error: function() {
+                    alert("Failed to fetch food items for the restaurant.");
+                }
+            });
+
+            function displayFoodItems(foodItems) {
+                var tableBody = $("#foodItemsTable tbody");
+                tableBody.empty();
+
+                for (var i = 0; i < foodItems.length; i++) {
+                    var foodItem = foodItems[i];
+                    var row = $("<tr>");
+                    row.append("<td>" + foodItem.id + "</td>");
+                    row.append("<td>" + foodItem.name + "</td>");
+                    row.append("<td>" + foodItem.description + "</td>");
+                    row.append("<td>" + foodItem.price + "</td>");
+                    tableBody.append(row);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
