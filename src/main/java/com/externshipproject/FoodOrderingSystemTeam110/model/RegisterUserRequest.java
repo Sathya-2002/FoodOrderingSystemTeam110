@@ -1,4 +1,4 @@
-package com.externshipproject.FoodOrderingSystemTeam110.Requests;
+package com.externshipproject.FoodOrderingSystemTeam110.model;
 public class RegisterUserRequest {
     private String username;
     private String password;

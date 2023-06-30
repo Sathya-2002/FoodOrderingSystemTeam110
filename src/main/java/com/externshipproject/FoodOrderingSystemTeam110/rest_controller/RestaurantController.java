@@ -35,4 +35,5 @@ public class RestaurantController {
         List<FoodItem> foodItems = restaurantService.getFoodItemsByRestaurantId(restaurantId);
         return ResponseEntity.ok(foodItems);
     }
+
 }

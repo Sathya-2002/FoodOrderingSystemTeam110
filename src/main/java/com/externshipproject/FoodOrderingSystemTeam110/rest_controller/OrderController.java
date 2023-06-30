@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,15 +39,16 @@ public class OrderController {
         List<Long> itemIDs = request.getFoodItemIds();// Create order items based on request details
         List<OrderItem> items = new ArrayList<>();
         for(Long itemID:itemIDs) {
-        	FoodItem foodItem = foodItemRepository.findById(itemID)
-                    .orElseThrow(() -> new IllegalArgumentException("Food item not found"));
-
-            OrderItem item = new OrderItem();
-            item.setFoodItem(foodItem);
-            item.setQuantity(1); // Set the quantity as needed
-            item.setPrice(foodItem.getPrice()); // Set the price as needed
-
-            items.add(item);
+        	List<FoodItem> foodItems = foodItemRepository.findByRestaurantId(itemID);
+            for (FoodItem FIitem : foodItems) {
+                if (itemID==FIitem.getId()){
+                    OrderItem item = new OrderItem();
+                    item.setFoodItem(FIitem);
+                    item.setQuantity(1);
+                    item.setPrice(FIitem.getPrice());
+                    items.add(item);
+                }
+            }
         }
         Order order = orderService.createOrder(user, items);
         return ResponseEntity.ok(order);

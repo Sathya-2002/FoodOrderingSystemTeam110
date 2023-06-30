@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.externshipproject.FoodOrderingSystemTeam110.Requests.LoginRequest;
-import com.externshipproject.FoodOrderingSystemTeam110.Requests.RegisterUserRequest;
+import com.externshipproject.FoodOrderingSystemTeam110.model.LoginRequest;
+import com.externshipproject.FoodOrderingSystemTeam110.model.RegisterUserRequest;
 import com.externshipproject.FoodOrderingSystemTeam110.model.User;
 import com.externshipproject.FoodOrderingSystemTeam110.service.UserService;
 

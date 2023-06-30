@@ -6,6 +6,8 @@ import com.externshipproject.FoodOrderingSystemTeam110.model.FoodItem;
 import com.externshipproject.FoodOrderingSystemTeam110.repository.FoodItemRepository;
 
 import java.util.List;
+import java.util.Optional;
+
 
 @Service
 public class FoodItemService {
@@ -21,9 +23,8 @@ public class FoodItemService {
         return foodItemRepository.findAll();
     }
 
-    public FoodItem getFoodItemById(Long id) {
-        return foodItemRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Food item not found"));
+    public Optional<FoodItem> getFoodItemById(Long id) {
+        return foodItemRepository.findById(id);
     }
 
     public FoodItem createFoodItem(FoodItem foodItem) {
@@ -37,4 +38,10 @@ public class FoodItemService {
 	public List<FoodItem> getFoodItemsByName(String name) {
 		return foodItemRepository.findByName(name);
 	}
+
+    public FoodItem findFoodItemById(Long foodItemId) {
+        Optional<FoodItem> optionalFoodItem = foodItemRepository.findById(foodItemId);
+        return optionalFoodItem.get();
+    }
+
 }

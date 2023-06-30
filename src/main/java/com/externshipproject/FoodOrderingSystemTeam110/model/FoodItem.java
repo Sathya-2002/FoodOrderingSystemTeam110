@@ -1,11 +1,11 @@
 package com.externshipproject.FoodOrderingSystemTeam110.model;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+
+import jakarta.persistence.*;
+import com.externshipproject.FoodOrderingSystemTeam110.repository.RestaurantRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "food_items")
@@ -13,6 +13,7 @@ public class FoodItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "food_item_id")
     private Long id;
 
     private String name;
@@ -21,18 +22,18 @@ public class FoodItem {
     
     @Column(name="description")
     private String desc;
+	@ManyToMany(mappedBy = "foodItems")
+	private List<Restaurant> restaurants;
 
-    @ManyToOne
-    private Restaurant restaurant;
 
     public FoodItem() {
     }
 
-    public FoodItem(String name, double price, String desc,Restaurant restaurant) {
+    public FoodItem(String name, double price, String desc, List<Restaurant> restaurants) {
         this.name = name;
         this.price = price;
         this.setDesc(desc);
-        this.restaurant = restaurant;
+        this.restaurants = restaurants;
     }
 
 	public Long getId() {
@@ -59,19 +60,20 @@ public class FoodItem {
 		this.price = price;
 	}
 
-	public Restaurant getRestaurant() {
-		return restaurant;
-	}
-
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
-	}
-
 	public String getDesc() {
 		return desc;
 	}
 
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+
+	public List<Restaurant> getRestaurants() {
+		return restaurants;
+	}
+
+	public void setRestaurants(List<Restaurant> restaurants) {
+		this.restaurants = restaurants;
 	}
 }

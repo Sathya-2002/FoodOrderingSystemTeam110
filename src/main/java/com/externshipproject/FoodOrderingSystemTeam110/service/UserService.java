@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.externshipproject.FoodOrderingSystemTeam110.Requests.LoginRequest;
-import com.externshipproject.FoodOrderingSystemTeam110.Requests.RegisterUserRequest;
+import com.externshipproject.FoodOrderingSystemTeam110.model.LoginRequest;
+import com.externshipproject.FoodOrderingSystemTeam110.model.RegisterUserRequest;
 import com.externshipproject.FoodOrderingSystemTeam110.model.User;
 import com.externshipproject.FoodOrderingSystemTeam110.repository.UserRepository;
 
@@ -13,8 +13,8 @@ import com.externshipproject.FoodOrderingSystemTeam110.repository.UserRepository
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
+
 
     public User registerUser(RegisterUserRequest request) {
         User user = new User();
@@ -30,7 +30,7 @@ public class UserService {
         if (user == null) {
             throw new RuntimeException("Invalid username or password");
         }
-        if (!passwordEncoder.matches(password, user.getPassword())) {
+        if (!password.equals( user.getPassword())) {
             throw new RuntimeException("Invalid username or password");
         }
         return user;
