@@ -1,4 +1,4 @@
-package com.externshipproject.FoodOrderingSystemTeam110.rest_controller;
+package com.externshipproject.FoodOrderingSystemTeam110.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.externshipproject.FoodOrderingSystemTeam110.rest_controller;
+package com.externshipproject.FoodOrderingSystemTeam110.controller;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -22,4 +22,8 @@ public class HomeController {
     public String homeRestaurant(){
         return "restaurants";
     }
+    @GetMapping("/restaurant")
+    private String showItemsInRestaurant(){
+        return "restaurant";
+    }
 }

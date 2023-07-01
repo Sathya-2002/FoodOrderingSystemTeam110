@@ -28,4 +28,18 @@ public class RestaurantService {
         }
         return foodItems;
     }
+
+    public List<Restaurant> getAllRestaurants() {
+        return restaurantRepository.findAll();
+    }
+
+    public boolean deleteRestaurant(Long restaurantId) {
+        try {
+            restaurantRepository.deleteById(restaurantId);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

@@ -32,13 +32,14 @@ public class WelcomeController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> processLogin(@ModelAttribute("loginRequest") LoginRequest loginRequest, Model model) {
+    public String processLogin(@ModelAttribute("loginRequest") LoginRequest loginRequest, Model model) {
         if (userService.loginUser(loginRequest)!=null) {
-            ResponseEntity.ok("success");
+            return "redirect:/home";
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("error");
+            model.addAttribute("errorMessage", "Invalid username or password");
+            return "login";
         }
-        return null;
+//        return null;
     }
 
     @GetMapping("/logout")

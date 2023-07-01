@@ -73,7 +73,6 @@
                 var restaurantsList = itemDetails.restaurants;
                 var restaurantsContainer = $("#restaurantsContainer");
                 restaurantsContainer.empty();
-
                 for (var i = 0; i < restaurantsList.length; i++) {
                     var restaurant = restaurantsList[i];
                     var restaurantElement = $("<div>");
@@ -81,7 +80,6 @@
                     restaurantElement.click(function() {
                         window.location.href = "/restaurant.html?id=" + restaurant.id;
                     });
-
                     restaurantsContainer.append(restaurantElement);
                 }
             }

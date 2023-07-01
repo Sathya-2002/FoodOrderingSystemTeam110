@@ -25,4 +25,11 @@ public class UserService {
         if (user == null || !password.equals( user.getPassword())) throw new RuntimeException("Invalid username or password");
         return user;
     }
+    public User loginAdmin(String username, String password) {
+        User adminUser = userRepository.findByUsername(username);
+        if (adminUser != null && adminUser.isAdmin() && adminUser.getPassword().equals(password)) {
+            return adminUser;
+        }
+        return null;
+    }
 }
