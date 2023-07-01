@@ -77,6 +77,5 @@ public class OrderController {
             return ResponseEntity.ok(orders);
         }
 
-    // Other methods for updating order status, retrieving order details, etc.
 }
 

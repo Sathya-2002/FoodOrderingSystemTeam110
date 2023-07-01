@@ -82,6 +82,9 @@ tr:hover {
                 for (var i = 0; i < foodItems.length; i++) {
                     var foodItem = foodItems[i];
                     var row = $("<tr>");
+                    row.click(function() {
+                        window.location.href = "/item-details.html?id=" + foodItem.id;
+                    });
                     row.append("<td>" + foodItem.id + "</td>");
                     row.append("<td>" + foodItem.name + "</td>");
                     row.append("<td>" + foodItem.description + "</td>");

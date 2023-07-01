@@ -13,11 +13,9 @@ import com.externshipproject.FoodOrderingSystemTeam110.model.FoodItem;
 public interface FoodItemRepository extends JpaRepository<FoodItem, Long> {
 	List<FoodItem> findByName(String name);
     FoodItem save(FoodItem foodItem);
-//    Optional<FoodItem> findByRestaurantId(long id);
     void deleteById(long id);
     @Query("SELECT f FROM FoodItem f JOIN f.restaurants r WHERE r.id = :restaurantId")
 	List<FoodItem> findFoodItemsByRestaurantId(@Param("restaurantId")Long restaurantId);
-//    FoodItem findByRestaurantsId(Long restaurantId);
 
     List<FoodItem> findByRestaurantsId(Long restaurantsID);
 }

@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>User Login</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
     <style>
 		body {
     font-family: Arial, sans-serif;
@@ -55,7 +54,7 @@ button[type="submit"]:hover {
 </head>
 <body>
     <h1>User Login</h1>
-    <form id="loginForm">
+    <form id="loginForm" action="/login" method="post">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br><br>
         <label for="password">Password:</label>
@@ -63,6 +62,42 @@ button[type="submit"]:hover {
         <button type="submit">Login</button>
     </form>
 
-    <script src="script.js"></script>
+    <script>$(document).ready(function() {
+        $("#loginForm").submit(function(event) {
+            event.preventDefault();
+
+            // Get the values from the login form
+            var username = $("#username").val();
+            var password = $("#password").val();
+
+            // Create the login request payload
+            var loginRequest = {
+                username: username,
+                password: password
+            };
+
+            $.ajax({
+                url: "/login",
+                type: "POST",
+                data: JSON.stringify(loginRequest),
+                contentType: "application/json",
+                success: function(data) {
+                    // Login successful, redirect to the home page or perform other actions
+                    if (data === "success") {
+                        // Login successful, redirect to the home page
+                        window.location.href = "home.html";
+                    } else {
+
+                        alert("Login failed. Please check your username and password.");
+                    }
+                },
+                error: function() {
+                    // Login failed, display an error message
+                    alert("Login failed. Please check your username and password.");
+                }
+            });
+        });
+    });
+    </script>
 </body>
 </html>
