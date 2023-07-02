@@ -80,7 +80,6 @@
 <div class="food-item-container">
   <h2>Add Food Item</h2>
   <form id="addFoodItemForm">
-<!--    <label for="foodItemName"></label>-->
     <input type="text" id="foodItemName" placeholder="Food Item Name">
     <button type="submit">Add</button>
   </form>
@@ -105,10 +104,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
   $(document).ready(function() {
-    // Fetch and display initial food item list
     fetchFoodItemList();
-
-    // Handle form submission to add a new food item
     $("#addFoodItemForm").submit(function(event) {
       event.preventDefault();
       var foodItemName = $("#foodItemName").val();
@@ -118,8 +114,6 @@
         $("#foodItemName").val('');
       }
     });
-
-    // Function to fetch the food item list
     function fetchFoodItemList() {
       $.ajax({
         url: "/restaurant/fooditems",
@@ -132,8 +126,6 @@
         }
       });
     }
-
-    // Function to display the food item list
     function displayFoodItems(foodItems) {
       var foodItemList = $("#foodItemList");
       foodItemList.empty();
@@ -157,8 +149,6 @@
         removeFoodItem(foodItemId);
       });
     }
-
-    // Function to add a new food item
     function addFoodItem(foodItemName) {
       $.ajax({
         url: "/api/restaurant/fooditems",
@@ -174,8 +164,6 @@
         }
       });
     }
-
-    // Function to remove a food item
     function removeFoodItem(foodItemId) {
       $.ajax({
         url: "/api/restaurant/fooditems/" + foodItemId,

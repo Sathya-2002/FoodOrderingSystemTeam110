@@ -12,12 +12,13 @@ import java.util.Optional;
 @Service
 public class FoodItemService {
 
-    private final FoodItemRepository foodItemRepository;
-
     @Autowired
-    public FoodItemService(FoodItemRepository foodItemRepository) {
-        this.foodItemRepository = foodItemRepository;
-    }
+    private FoodItemRepository foodItemRepository;
+
+//    @Autowired
+//    public FoodItemService(FoodItemRepository foodItemRepository) {
+//        this.foodItemRepository = foodItemRepository;
+//    }
 
     public List<FoodItem> getAllFoodItems() {
         return foodItemRepository.findAll();

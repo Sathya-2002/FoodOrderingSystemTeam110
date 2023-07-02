@@ -22,7 +22,6 @@ form {
     max-width: 400px;
     margin: 20px auto;
     padding: 20px;
-    /*border: 1px solid #ddd;*/
     border-radius: 5px;
 }
 
@@ -69,12 +68,8 @@ button[type="submit"]:hover {
     <script>$(document).ready(function() {
         $("#loginForm").submit(function(event) {
             event.preventDefault();
-
-            // Get the values from the login form
             var username = $("#username").val();
             var password = $("#password").val();
-
-            // Create the login request payload
             var loginRequest = {
                 username: username,
                 password: password
@@ -86,9 +81,7 @@ button[type="submit"]:hover {
                 data: JSON.stringify(loginRequest),
                 contentType: "application/json",
                 success: function(data) {
-                    // Login successful, redirect to the home page or perform other actions
                     if (data === "success") {
-                        // Login successful, redirect to the home page
                         window.location.href = "/home";
                     } else {
 
@@ -96,7 +89,6 @@ button[type="submit"]:hover {
                     }
                 },
                 error: function() {
-                    // Login failed, display an error message
                     alert("Login failed. Please check your username and password.");
                 }
             });

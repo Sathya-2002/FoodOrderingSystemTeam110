@@ -90,7 +90,6 @@
                 type: "DELETE",
                 success: function(response) {
                     alert(response);
-                    // Refresh the order items after deletion
                     $.ajax({
                         url: "/home/items",
                         type: "GET",
@@ -109,7 +108,7 @@
         }
         $("#deleteAllButton").click(function() {
             if (confirm("Are you sure you want to delete all orders?")) {
-                deleteOrder();  // Call the deleteOrder() function
+                deleteOrder();
             }
         });
     });
