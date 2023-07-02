@@ -39,7 +39,19 @@ public class WelcomeController {
             model.addAttribute("errorMessage", "Invalid username or password");
             return "login";
         }
-//        return null;
+    }
+    @GetMapping("res_login")
+    public String restaurantLogin(){
+        return "restaurant_login";
+    }
+    @PostMapping("res_login")
+    public String processRestaurant(@ModelAttribute("res_log") LoginRequest loginRequest,Model model){
+        if (userService.loginUser(loginRequest)!=null) {
+            return "redirect:/home";
+        } else {
+            model.addAttribute("errorMessage", "Invalid username or password");
+            return "login";
+        }
     }
 
     @GetMapping("/logout")

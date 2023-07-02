@@ -3,6 +3,25 @@ public class RegisterUserRequest {
     private String username;
     private String password;
     private String email;
+	private boolean isAdmin = false;
+	private boolean isRestaurant = false;
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean admin) {
+		isAdmin = admin;
+	}
+
+	public boolean isRestaurant() {
+		return isRestaurant;
+	}
+
+	public void setRestaurant(boolean restaurant) {
+		isRestaurant = restaurant;
+	}
+
 	public String getUsername() {
 		return username;
 	}

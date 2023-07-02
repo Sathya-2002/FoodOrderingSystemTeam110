@@ -16,6 +16,8 @@ public class UserService {
         user.setUsername(request.getUsername());
         user.setPassword(request.getPassword());
         user.setEmail(request.getEmail());
+        user.setAdmin(request.isAdmin());
+        user.setResAdmin(request.isRestaurant());
         return userRepository.save(user);
     }
     public User loginUser(LoginRequest loginRequest) {

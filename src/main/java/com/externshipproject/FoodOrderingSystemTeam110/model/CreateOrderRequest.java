@@ -1,4 +1,4 @@
-package com.externshipproject.FoodOrderingSystemTeam110.other;
+package com.externshipproject.FoodOrderingSystemTeam110.model;
 
 import java.util.List;
 

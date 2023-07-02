@@ -1,30 +1,22 @@
 package com.externshipproject.FoodOrderingSystemTeam110.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.externshipproject.FoodOrderingSystemTeam110.model.FoodItem;
 import com.externshipproject.FoodOrderingSystemTeam110.model.Restaurant;
 import com.externshipproject.FoodOrderingSystemTeam110.service.RestaurantService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("restaurants")
+@RequestMapping("/restaurants")
 public class RestaurantController {
 
 	@Autowired
     private RestaurantService restaurantService;
-
-//    public RestaurantController(RestaurantService restaurantService) {
-//        this.restaurantService = restaurantService;
-//    }
-
     @GetMapping("/search")
     public ResponseEntity<List<Restaurant>> searchRestaurants(@RequestParam("query") String query) {
         List<Restaurant> matchingRestaurants = restaurantService.searchRestaurants(query);
@@ -35,5 +27,16 @@ public class RestaurantController {
         List<FoodItem> foodItems = restaurantService.getFoodItemsByRestaurantId(restaurantId);
         return ResponseEntity.ok(foodItems);
     }
+    @GetMapping("/{id}")
+    public String getRestaurant(@PathVariable("id") Long id,Model model) {
+
+        Restaurant restaurant = restaurantService.getRestaurantById(id);
+
+        model.addAttribute("restaurant", restaurant);
+        model.addAttribute("restaurantId",restaurant.getId());
+
+        return "restaurant";
+    }
+
 
 }

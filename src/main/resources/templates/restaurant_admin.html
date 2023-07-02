@@ -2,11 +2,15 @@
 <html>
 <head>
   <title>Restaurant Admin Page</title>
+  <link type="text/css" rel="stylesheet" href="../static/styles.css">
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      height: 100%;
+      background: linear-gradient(to bottom, orange 60%, cyan) fixed;
+      color: #3f3f3f;
     }
 
     h1 {
@@ -76,6 +80,7 @@
 <div class="food-item-container">
   <h2>Add Food Item</h2>
   <form id="addFoodItemForm">
+<!--    <label for="foodItemName"></label>-->
     <input type="text" id="foodItemName" placeholder="Food Item Name">
     <button type="submit">Add</button>
   </form>

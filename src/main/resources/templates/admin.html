@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<!--<html xmlns:c="">-->
+
 <head>
+    <link type="text/css" rel="stylesheet" href="../static/styles.css">
     <title>Admin Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            height: 100%;
+            background: linear-gradient(to bottom, orange 60%, cyan) fixed;
+            color: #3f3f3f;
         }
 
         h1 {
@@ -15,8 +19,9 @@
         }
 
         table {
-            width: 100%;
+            width: 92%;
             border-collapse: collapse;
+            margin: 4%;
         }
 
         th, td {
@@ -37,10 +42,22 @@
             border-radius: 3px;
             cursor: pointer;
         }
+        .add-button {
+            background-color: #3f3f3f;
+            color: #f3f3f3;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            float: right;
+            margin-right: 50px;
+        }
     </style>
 </head>
 <body>
 <h1>Admin Page</h1>
+<button class="add-button" onclick="location.href='/admin/addRestaurant'">Add Restaurant</button>
 <table id="restaurantTable">
     <thead>
     <tr>
@@ -50,15 +67,13 @@
     </tr>
     </thead>
     <tbody>
-    <!-- Loop through the restaurants and generate table rows -->
     <tr th:each="restaurant : ${restaurants}">
         <td th:text="${restaurant.id}"></td>
         <td th:text="${restaurant.name}"></td>
         <td>
-            <a th:href="@{/admin/deleteRestaurant/{id}(id=${restaurant.id})}">Delete</a>
+            <a class="delete-button" th:href="@{/admin/deleteRestaurant/{id}(id=${restaurant.id})}">Delete</a>
         </td>
     </tr>
-
     </tbody>
 </table>
 
@@ -67,11 +82,11 @@
     function deleteRestaurant(restaurantId) {
         if (confirm("Are you sure you want to delete this restaurant?")) {
             $.ajax({
-                url: "/admin/restaurants/" + restaurantId,
+                url: "/admin/deleteRestaurant/" + restaurantId,
                 type: "DELETE",
                 success: function(response) {
                     alert(response);
-                    location.reload(); // Refresh the page after deletion
+                    location.reload();
                 },
                 error: function() {
                     alert("Failed to delete the restaurant.");

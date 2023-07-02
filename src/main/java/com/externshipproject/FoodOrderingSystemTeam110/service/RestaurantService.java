@@ -1,6 +1,7 @@
 package com.externshipproject.FoodOrderingSystemTeam110.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,10 @@ public class RestaurantService {
         }
         return foodItems;
     }
+    public Restaurant getRestaurantById(Long id){
+        Optional<Restaurant> optionalRestaurant= restaurantRepository.findById(id);
+        return optionalRestaurant.get();
+    }
 
     public List<Restaurant> getAllRestaurants() {
         return restaurantRepository.findAll();
@@ -41,5 +46,8 @@ public class RestaurantService {
             e.printStackTrace();
             return false;
         }
+    }
+    public void addRestaurant(Restaurant restaurant){
+        restaurantRepository.save(restaurant);
     }
 }

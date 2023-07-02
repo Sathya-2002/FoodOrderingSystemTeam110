@@ -3,6 +3,7 @@ package com.externshipproject.FoodOrderingSystemTeam110.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.externshipproject.FoodOrderingSystemTeam110.service.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,7 +18,7 @@ import com.externshipproject.FoodOrderingSystemTeam110.model.FoodItem;
 import com.externshipproject.FoodOrderingSystemTeam110.model.Order;
 import com.externshipproject.FoodOrderingSystemTeam110.model.OrderItem;
 import com.externshipproject.FoodOrderingSystemTeam110.model.User;
-import com.externshipproject.FoodOrderingSystemTeam110.other.CreateOrderRequest;
+import com.externshipproject.FoodOrderingSystemTeam110.model.CreateOrderRequest;
 import com.externshipproject.FoodOrderingSystemTeam110.repository.FoodItemRepository;
 import com.externshipproject.FoodOrderingSystemTeam110.service.OrderService;
 
@@ -28,16 +29,19 @@ public class OrderController {
     
 	@Autowired
     private OrderService orderService;
+    @Autowired
+    private OrderItemService orderItemService;
 	@Autowired
 	private FoodItemRepository foodItemRepository;
-	
-    @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody CreateOrderRequest request) {
-        User user = new User();// Retrieve user based on request details (e.g., from JWT token)
-        user.setId(request.getUserId());
+    private final List<OrderItem> items = new ArrayList<>();
+    private long userId;
+    @PostMapping("/add")
+    public ResponseEntity<String> addItem(@RequestBody CreateOrderRequest request) {
+
+        long userId = request.getUserId();
         
         List<Long> itemIDs = request.getFoodItemIds();// Create order items based on request details
-        List<OrderItem> items = new ArrayList<>();
+
         for(Long itemID:itemIDs) {
         	List<FoodItem> foodItems = foodItemRepository.findByRestaurantsId(itemID);
             for (FoodItem FIitem : foodItems) {
@@ -50,17 +54,24 @@ public class OrderController {
                 }
             }
         }
-        Order order = orderService.createOrder(user, items);
-        return ResponseEntity.ok(order);
+
+        return ResponseEntity.ok("Added to cart");
         
     }
-    @DeleteMapping("/{orderId}")
+    @PostMapping("/create")
+    public ResponseEntity<Order> createOrder(){
+        User user = new User();
+        user.setId(userId);
+        Order order = orderService.createOrder(user, items);
+        return ResponseEntity.ok(order);
+    }
+        @DeleteMapping("/{orderId}")
         public ResponseEntity<String> deleteOrder(@PathVariable Long orderId) {
             orderService.deleteOrder(orderId);
             return ResponseEntity.ok("Order deleted successfully");
         }
 
-        @DeleteMapping("/{orderId}/items/{itemId}")
+        @DeleteMapping("/{orderId}/{itemId}")
         public ResponseEntity<String> deleteOrderItem(@PathVariable Long orderId, @PathVariable Long itemId) {
             orderService.deleteOrderItem(orderId, itemId);
             return ResponseEntity.ok("Order item deleted successfully");

@@ -3,12 +3,15 @@
 <head>
     <title>Restaurants</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    
+    <link rel="stylesheet" type="text/css" href="../static/styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            height: 100%;
+            background: linear-gradient(to bottom, orange 60%, cyan) fixed;
+            color: #3f3f3f;
         }
 
         .container {
@@ -51,7 +54,6 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Location</th>
-<!--                <th>Contact</th>-->
             </tr>
         </thead>
         <tbody></tbody>
@@ -71,7 +73,6 @@
                     }
                 });
             }
-
             function displayRestaurants(restaurants) {
                 var tableBody = $("#restaurantsTable tbody");
                 tableBody.empty();
@@ -81,11 +82,13 @@
                     row.append("<td>" + restaurant.id + "</td>");
                     row.append("<td>" + restaurant.name + "</td>");
                     row.append("<td>" + restaurant.location + "</td>");
-                    // row.append("<td>" + restaurant.contact + "</td>");
+                    row.click(function() {
+                        var restaurantId = restaurant.id;
+                        window.location.href = "/restaurants/"  + restaurantId;
+                    });
                     tableBody.append(row);
                 }
             }
-
             fetchAllRestaurants();
         });
     </script>

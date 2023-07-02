@@ -14,16 +14,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("admin")
 public class AdminController {
-    private  UserService userService;
 
-//    public AdminController(UserService userService, RestaurantService restaurantService) {
-//        this.userService = userService;
-//        this.restaurantService = restaurantService;
-//    }
-
-    @GetMapping("/auth")
+    @Autowired
+    private  UserService userService ;
+    @Autowired
+    private RestaurantService restaurantService;
+    @PostMapping("/auth")
     private String adminHome(@RequestParam("username") String username, @RequestParam("password") String password, Model model){
         User adminUser = userService.loginAdmin(username, password);
         if (adminUser != null&& adminUser.isAdmin() && adminUser.getPassword().equals(password)) {
@@ -38,17 +36,25 @@ public class AdminController {
         return "admin_login";
     }
 
-    @Autowired
-    private RestaurantService restaurantService;
+
 
     @GetMapping("/restaurants")
     public String showRestaurantList(Model model) {
         List<Restaurant> restaurantList = restaurantService.getAllRestaurants();
         model.addAttribute("restaurants", restaurantList);
-        return "admin/restaurant_list";
+        return "admin";
+    }
+    @GetMapping("/addRestaurant")
+    public String addRestaurant(){
+        return "restaurant_add";
     }
 
-    @DeleteMapping("/restaurants/{restaurantId}")
+    @PostMapping("/add")
+    public String addRestaurant(@ModelAttribute("restaurant") Restaurant restaurant) {
+        restaurantService.addRestaurant(restaurant);
+        return "redirect:/admin/restaurants";
+    }
+    @DeleteMapping("/deleteRestaurant/{restaurantId}")
     public ResponseEntity<String> deleteRestaurant(@PathVariable("restaurantId") Long restaurantId) {
         if (restaurantService.deleteRestaurant(restaurantId)) {
             return ResponseEntity.ok("Restaurant deleted successfully.");
