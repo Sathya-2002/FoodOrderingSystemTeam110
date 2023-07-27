@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Food Item</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+            height: 100%;
+            background: linear-gradient(to bottom, orange 60%, cyan) fixed;
+            color: #3f3f3f;
+        }
+
+        h1 {
+            color: #333333;
+            text-align: center;
+        }
+
+        form {
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            padding: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            font-size: 14px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+  
+  var form = document.getElementById("createForm");
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+    var redirectPath = response.data;
+    var redirectURL = "http://localhost:8080" + redirectPath;
+    window.location.href = redirectURL;
+  });
+</script>
+
+</head>
+<body>
+    <h1>Create Food Item</h1>
+    <form id="createForm" method="POST" action="/fooditems/create">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description"><br><br>
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price"><br><br>
+         <label for="restaurant">Restaurant:</label>
+        <input type="text" id="restaurant" name="restaurant"><br><br>
+        <input type="submit"/>
+    </form>
+</body>
+</html>

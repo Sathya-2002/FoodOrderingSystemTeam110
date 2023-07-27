@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Restaurant Admin Page</title>
+  <link type="text/css" rel="stylesheet" href="../static/styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: linear-gradient(to bottom, orange 60%, cyan) fixed;
+      color: #3f3f3f;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .food-item-container {
+      margin: 20px auto;
+      max-width: 500px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .food-item-container h2 {
+      color: #666;
+    }
+
+    .food-item-container form {
+      display: flex;
+      align-items: center;
+    }
+
+    .food-item-container input[type="text"] {
+      flex: 1;
+      padding: 5px;
+      margin-right: 10px;
+    }
+
+    .food-item-container button {
+      background-color: #333;
+      color: #fff;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .food-item-container button:hover {
+      background-color: #555;
+    }
+
+    .food-item-list {
+      margin-top: 20px;
+    }
+
+    .food-item-list table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .food-item-list th, .food-item-list td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .food-item-list th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+<h1>Restaurant Admin Page</h1>
+
+<div class="food-item-container">
+  <h2>Add Food Item</h2>
+  <form id="addFoodItemForm">
+    <input type="text" id="foodItemName" placeholder="Food Item Name">
+    <button type="submit">Add</button>
+  </form>
+</div>
+
+<div class="food-item-list">
+  <h2>Food Item List</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody id="foodItemList"></tbody>
+  </table>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  $(document).ready(function() {
+    fetchFoodItemList();
+    $("#addFoodItemForm").submit(function(event) {
+      event.preventDefault();
+      var foodItemName = $("#foodItemName").val();
+
+      if (foodItemName.trim() !== '') {
+        addFoodItem(foodItemName);
+        $("#foodItemName").val('');
+      }
+    });
+    function fetchFoodItemList() {
+      $.ajax({
+        url: "/restaurant/fooditems",
+        type: "GET",
+        success: function(foodItems) {
+          displayFoodItems(foodItems);
+        },
+        error: function() {
+          alert("Failed to fetch food item list.");
+        }
+      });
+    }
+    function displayFoodItems(foodItems) {
+      var foodItemList = $("#foodItemList");
+      foodItemList.empty();
+
+      for (var i = 0; i < foodItems.length; i++) {
+        var foodItem = foodItems[i];
+        var row = $("<tr>");
+
+        row.append("<td>" + foodItem.id + "</td>");
+        row.append("<td>" + foodItem.name + "</td>");
+        row.append("<td>" + foodItem.description + "</td>");
+        row.append("<td>" + foodItem.price + "</td>");
+        row.append('<td><button class="remove-food-item" data-id="' + foodItem.id + '">Remove</button></td>');
+
+        foodItemList.append(row);
+      }
+
+      // Bind click event to remove food item button
+      $(".remove-food-item").click(function() {
+        var foodItemId = $(this).data("id");
+        removeFoodItem(foodItemId);
+      });
+    }
+    function addFoodItem(foodItemName) {
+      $.ajax({
+        url: "/api/restaurant/fooditems",
+        type: "POST",
+        data: {
+          name: foodItemName
+        },
+        success: function() {
+          fetchFoodItemList();
+        },
+        error: function() {
+          alert("Failed to add food item.");
+        }
+      });
+    }
+    function removeFoodItem(foodItemId) {
+      $.ajax({
+        url: "/api/restaurant/fooditems/" + foodItemId,
+        type: "DELETE",
+        success: function() {
+          fetchFoodItemList();
+        },
+        error: function() {
+          alert("Failed to remove food item.");
+        }
+      });
+    }
+  });
+</script>
+</body>
+</html>

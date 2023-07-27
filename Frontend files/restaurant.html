@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Restaurant</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: linear-gradient(to bottom, orange 60%, cyan) fixed;
+            color: #3f3f3f;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            color: #666;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Restaurant</h1>
+    <h2 id="restaurantName"th:text="${restaurantName}"></h2>
+    <table id="foodItemsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <button id="cartButton" >Cart</button>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var restaurantId = "<%= restaurantId%>";
+            $.ajax({
+                url: "/restaurants/" + restaurantId,
+                type: "GET",
+                success: function(restaurant) {
+                    $("#restaurantName").text(restaurant.name);
+                },
+                error: function() {
+                    alert("Failed to fetch restaurant details.");
+                }
+            });
+            $.ajax({
+                url: "/restaurants/" + restaurantId + "/fooditems",
+                type: "GET",
+                success: function(foodItems) {
+                    displayFoodItems(foodItems);
+                },
+                error: function() {
+                    alert("Failed to fetch food items for the restaurant.");
+                }
+            });
+            $(document).on("click", ".plus-button", function() {
+                var foodItemId = $(this).data("fooditemid");
+                createOrderItem(foodItemId);
+            });
+
+            function createOrderItem(foodItemId) {
+                $.ajax({
+                    url: "/orders/add",
+                    type: "POST",
+                    data: { foodItemId: foodItemId },
+                    success: function(response) {
+                        alert("Order item created successfully.");
+                    },
+                    error: function() {
+                        alert("Failed to create order item.");
+                    }
+                });
+            }
+            function displayFoodItems(foodItems) {
+                var tableBody = $("#foodItemsTable tbody");
+                tableBody.empty();
+                for (var i = 0; i < foodItems.length; i++) {
+                    var foodItem = foodItems[i];
+                    var row = $("<tr>");
+                    row.append("<td>" + foodItem.id + "</td>");
+                    row.append("<td>" + foodItem.name + "</td>");
+                    row.append("<td>" + foodItem.description + "</td>");
+                    row.append("<td>" + foodItem.price + "</td>");
+                    row.append('<td><button class="plus-button" data-fooditemid="' + foodItem.id + '">+</button></td>');
+                    tableBody.append(row);
+                }
+            }
+            $("#cartButton").click(function() {
+                $.ajax({
+                    url: "/orders/create",
+                    type: "POST",
+                    success: function(response) {
+                        alert("Order created successfully.");
+                        window.location.href = "/home/orders";
+                    },
+                    error: function() {
+                        alert("Failed to create order.");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Food Items</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/styles.css">
+    <style>
+	
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+    height: 100%;
+    background: linear-gradient(to bottom, orange 60%, cyan) fixed;
+    color: #3f3f3f;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #f9f9f9;
+}
+
+	</style>
+    <script>
+        $(document).ready(function() {
+            function fetchAllFoodItems() {
+                $.ajax({
+                    url: "/fooditems",
+                    type: "GET",
+                    success: function(data) {
+                        displayFoodItems(data);
+                    },
+                    error: function() {
+                        alert("Failed to fetch food items.");
+                    }
+                });
+            }
+
+            
+            function fetchFoodItemsByName(name) {
+                $.ajax({
+                    url: "/fooditems/byname?name=" + name,
+                    type: "GET",
+                    success: function(data) {
+                        displayFoodItems(data);
+                    },
+                    error: function() {
+                        alert("Failed to fetch food items by name.");
+                    }
+                });
+            }
+
+            
+            function displayFoodItems(foodItems) {
+                var tableBody = $("#foodItemsTable tbody");
+                tableBody.empty();
+
+                for (var i = 0; i < foodItems.length; i++) {
+                    var foodItem = foodItems[i];
+                    var row = $("<tr>");
+                    row.click(function() {
+                        window.location.href = "/item-details.html?id=" + foodItem.id;
+                    });
+                    row.append("<td>" + foodItem.id + "</td>");
+                    row.append("<td>" + foodItem.name + "</td>");
+                    row.append("<td>" + foodItem.description + "</td>");
+                    row.append("<td>" + foodItem.price + "</td>");
+                    tableBody.append(row);
+                }
+            }
+            fetchAllFoodItems();
+            $("form").submit(function(event) {
+                event.preventDefault();
+                var name = $("#name").val();
+                fetchFoodItemsByName(name);
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Food Items</h1>
+    <form action="/fooditems/byname">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+        <button type="submit">Search by Name</button>
+    </form>
+    <br>
+    <table id="foodItemsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</body>
+</html>

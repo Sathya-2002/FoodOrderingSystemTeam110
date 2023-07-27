@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../static/styles.css">
+    <title>Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            height: 100%;
+            background: linear-gradient(to bottom, orange 60%, cyan) fixed;
+            color: #3f3f3f;
+        }
+        h1 {
+            color: #FF0000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Error</h1>
+    <div>
+        <h2>Oops! Something went wrong.</h2>
+        <p>Error details:</p>
+        <ul>
+            <li>Status: <span th:text="${status}"></span></li>
+            <li>Error: <span th:text="${error}"></span></li>
+            <li>Message: <span th:text="${message}"></span></li>
+            <li>Timestamp: <span th:text="${timestamp}"></span></li>
+        </ul>
+    </div>
+</body>
+</html>

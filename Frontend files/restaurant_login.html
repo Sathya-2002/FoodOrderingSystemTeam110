@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Restaurant Login</title>
+  <link rel="stylesheet" type="text/css" href="../static/styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: linear-gradient(to bottom, orange 60%, cyan) fixed;
+      color: #3f3f3f;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-top: 50px;
+    }
+
+    form {
+      margin: 20px auto;
+      max-width: 400px;
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    button {
+      display: block;
+      padding: 10px 20px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 3% auto;
+    }
+
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      text-align: center;
+    }
+
+    nav ul li {
+      display: inline-block;
+    }
+
+    nav ul li a {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #333;
+      color: #fff;
+      text-decoration: none;
+      margin-right: 10px;
+      border-radius: 5px;
+    }
+
+    nav ul li a:hover {
+      background-color: #555;
+    }
+
+  </style>
+</head>
+<body>
+<h1>Restaurant Login</h1>
+<form action="/admin/auth" method="post">
+  <label for="username">Username:</label>
+  <input type="text" id="username" name="username" required><br>
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" required><br>
+  <button type="submit">Login</button>
+</form>
+</body>
+</html>
