@@ -2,12 +2,15 @@
 <html>
 <head>
     <title>User Login</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="../static/styles.css">
     <style>
 		body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+            height: 100%;
+            background: linear-gradient(to bottom, orange 60%, cyan) fixed;
+            color: #3f3f3f;
 }
 
 h1 {
@@ -19,7 +22,6 @@ form {
     max-width: 400px;
     margin: 20px auto;
     padding: 20px;
-    border: 1px solid #ddd;
     border-radius: 5px;
 }
 
@@ -55,7 +57,7 @@ button[type="submit"]:hover {
 </head>
 <body>
     <h1>User Login</h1>
-    <form id="loginForm">
+    <form id="loginForm" action="/login" method="post">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br><br>
         <label for="password">Password:</label>
@@ -63,6 +65,35 @@ button[type="submit"]:hover {
         <button type="submit">Login</button>
     </form>
 
-    <script src="script.js"></script>
+    <script>$(document).ready(function() {
+        $("#loginForm").submit(function(event) {
+            event.preventDefault();
+            var username = $("#username").val();
+            var password = $("#password").val();
+            var loginRequest = {
+                username: username,
+                password: password
+            };
+
+            $.ajax({
+                url: "/login",
+                type: "POST",
+                data: JSON.stringify(loginRequest),
+                contentType: "application/json",
+                success: function(data) {
+                    if (data === "success") {
+                        window.location.href = "/home";
+                    } else {
+
+                        alert("Login failed. Please check your username and password.");
+                    }
+                },
+                error: function() {
+                    alert("Login failed. Please check your username and password.");
+                }
+            });
+        });
+    });
+    </script>
 </body>
 </html>

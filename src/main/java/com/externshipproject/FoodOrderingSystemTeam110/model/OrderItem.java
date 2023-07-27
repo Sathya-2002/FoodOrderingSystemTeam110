@@ -78,6 +78,5 @@ public class OrderItem {
 
     private double price;
 
-    // Constructors, getters, and setters
 }
 

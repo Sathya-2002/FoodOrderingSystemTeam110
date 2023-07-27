@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Item Details</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: linear-gradient(to bottom, orange 60%, cyan) fixed;
+            color: #3f3f3f;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        h2, h3 {
+            color: #333;
+        }
+
+        p {
+            color: #777;
+        }
+
+        #restaurantsContainer {
+            margin-top: 20px;
+        }
+
+        #restaurantsContainer div {
+            cursor: pointer;
+            padding: 10px;
+            background-color: #f2f2f2;
+            margin-bottom: 10px;
+        }
+
+        #restaurantsContainer div:hover {
+            background-color: #ddd;
+        }
+
+
+    </style>
+    <script>
+        $(document).ready(function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var itemId = urlParams.get("id");
+
+            $.ajax({
+                url: "/fooditems/" + itemId,
+                type: "GET",
+                success: function(data) {
+                    displayItemDetails(data);
+                },
+                error: function() {
+                    alert("Failed to fetch item details.");
+                }
+            });
+
+            function displayItemDetails(itemDetails) {
+
+                $("#itemName").text(itemDetails.name);
+                $("#itemPrice").text("Price: " + itemDetails.price);
+                $("#itemDescription").text("Description: " + itemDetails.description);
+
+
+                var restaurantsList = itemDetails.restaurants;
+                var restaurantsContainer = $("#restaurantsContainer");
+                restaurantsContainer.empty();
+                for (var i = 0; i < restaurantsList.length; i++) {
+                    var restaurant = restaurantsList[i];
+                    var restaurantElement = $("<div>");
+                    restaurantElement.text(restaurant.name);
+                    restaurantElement.click(function() {
+                        window.location.href = "/restaurant.html?id=" + restaurant.id;
+                    });
+                    restaurantsContainer.append(restaurantElement);
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+<h1>Item Details</h1>
+<h2 id="itemName"></h2>
+<p id="itemPrice"></p>
+<p id="itemDescription"></p>
+<h3>Available at:</h3>
+<div id="restaurantsContainer"></div>
+</body>
+</html>

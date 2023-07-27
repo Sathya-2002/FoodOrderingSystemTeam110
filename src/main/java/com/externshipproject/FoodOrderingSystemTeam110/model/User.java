@@ -18,6 +18,24 @@ public class User {
     @Column(unique = true)
     private String username;
 
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
+
+	public boolean isResAdmin() {
+		return resAdmin;
+	}
+
+	public void setResAdmin(boolean resAdmin) {
+		this.resAdmin = resAdmin;
+	}
+
+	private boolean admin = false;
+	private boolean resAdmin = false;
     private String password;
     
     @Column(unique = true)
@@ -55,6 +73,14 @@ public class User {
 		this.username = username;
 	}
 
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 	public String getPassword() {
 		return password;
 	}
@@ -78,6 +104,7 @@ public class User {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-    
+
+	private String location;
 }
 

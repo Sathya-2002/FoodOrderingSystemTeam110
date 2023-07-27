@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Page</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles.css">
+    <style>
+        .order-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .order-item h2 {
+            color: #333;
+        }
+
+        .order-item p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+<h1>Order Page</h1>
+<div id="orderItemsContainer">
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: "/home/items",
+            type: "GET",
+            success: function(orderItems) {
+                displayOrderItems(orderItems);
+            },
+            error: function() {
+                alert("Failed to fetch order items.");
+            }
+        });
+        function displayOrderItems(orderItems) {
+            var orderItemsContainer = $("#orderItemsContainer");
+            orderItemsContainer.empty();
+
+            for (var i = 0; i < orderItems.length; i++) {
+                var orderItem = orderItems[i];
+                var itemContainer = $("<div class='order-item'>");
+                itemContainer.append("<h2>" + orderItem.name + "</h2>");
+                itemContainer.append("<p>Quantity: " + orderItem.quantity + "</p>");
+                itemContainer.append("<p>Price: $" + orderItem.price + "</p>");
+
+                var deleteButton = $("<button class='delete-button'>Delete</button>");
+                deleteButton.data("orderId", orderItem.orderId);
+                deleteButton.data("itemId", orderItem.itemId);
+                deleteButton.click(function() {
+                    var orderId = $(this).data("orderId");
+                    var itemId = $(this).data("itemId");
+                    deleteOrderItem(orderId, itemId);
+                });
+
+                itemContainer.append(deleteButton);
+
+                orderItemsContainer.append(itemContainer);
+            }
+        }
+        function deleteOrder(orderId) {
+            $.ajax({
+                url: "/orders/" + orderId,
+                type: "DELETE",
+                success: function(response) {
+                    alert(response);
+                    $.ajax({
+                        url: "/home/items",
+                        type: "GET",
+                        success: function(orderItems) {
+                            displayOrderItems(orderItems);
+                        },
+                        error: function() {
+                            alert("Failed to fetch order items.");
+                        }
+                    });
+                },
+                error: function() {
+                    alert("Failed to delete order.");
+                }
+            });
+        }
+        function deleteOrderItem(orderId, itemId) {
+            $.ajax({
+                url: "/orders/" + orderId + "/" + itemId,
+                type: "DELETE",
+                success: function(response) {
+                    alert(response);
+                    $.ajax({
+                        url: "/home/items",
+                        type: "GET",
+                        success: function(orderItems) {
+                            displayOrderItems(orderItems);
+                        },
+                        error: function() {
+                            alert("Failed to fetch order items.");
+                        }
+                    });
+                },
+                error: function() {
+                    alert("Failed to delete order item.");
+                }
+            });
+        }
+        $("#deleteAllButton").click(function() {
+            if (confirm("Are you sure you want to delete all orders?")) {
+                deleteOrder();
+            }
+        });
+    });
+</script>
+</body>
+</html>

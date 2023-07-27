@@ -20,6 +20,7 @@ public class Restaurant {
 	}
 	private String name;
     private String location;
+
 	@ManyToMany
 	@JoinTable(
 			name = "restaurant_food_item",

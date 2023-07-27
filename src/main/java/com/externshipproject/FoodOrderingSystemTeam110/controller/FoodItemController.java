@@ -1,4 +1,4 @@
-package com.externshipproject.FoodOrderingSystemTeam110.rest_controller;
+package com.externshipproject.FoodOrderingSystemTeam110.controller;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,5 +59,4 @@ public class FoodItemController {
         foodItemService.deleteFoodItemById(id);
         return ResponseEntity.noContent().build();
     }
-    
 }

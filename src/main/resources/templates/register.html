@@ -2,12 +2,15 @@
 <html>
 <head>
     <title>User Registration</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="../static/styles.css">
     <style>
 		body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+            height: 100%;
+            background: linear-gradient(to bottom, orange 60%, cyan) fixed;
+            color: #3f3f3f;
 }
 
 h1 {
@@ -19,7 +22,6 @@ form {
     max-width: 400px;
     margin: 20px auto;
     padding: 20px;
-    border: 1px solid #ddd;
     border-radius: 5px;
 }
 
@@ -55,7 +57,7 @@ button[type="submit"]:hover {
 </head>
 <body>
     <h1>User Registration</h1>
-    <form id="registrationForm">
+    <form id="registrationForm" action="/register" method="post">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br><br>
         <label for="password">Password:</label>
@@ -64,7 +66,5 @@ button[type="submit"]:hover {
         <input type="email" id="email" name="email" required><br><br>
         <button type="submit">Register</button>
     </form>
-
-    <script src="script.js"></script>
 </body>
 </html>
